@@ -92,10 +92,17 @@ def calculate_and_display_receipt(items, subtotals, discounts)
     grand_total += item_total_amount
   end
 
-  print_receipt(subtotal, grand_total)
+  print_receipt(items, item_totals, subtotal, grand_total)
 end
 
-def print_receipt(subtotal, grand_total)
+def print_receipt(items, item_totals, subtotal, grand_total)
+  # loop through items and display a tabular receipt
+  puts "Item\tQuantity\tPrice"
+  puts '--------------------------------------'
+  items.each do |item, quantity|
+    puts "#{item.capitalize}\t#{quantity}\t$#{item_totals[item]}"
+  end
+
   puts "Total price: $#{grand_total}"
   puts "You saved: $#{(subtotal - grand_total).round(2)}"
 end
