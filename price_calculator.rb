@@ -102,17 +102,22 @@ def calculate_and_display_receipt(items, subtotals, discounts)
   print_receipt(items, item_totals, subtotal, grand_total)
 end
 
+# Always return with 2 decimal places
+def format_currency(value)
+  '$%.2f' % value
+end
+
 def print_receipt(items, item_totals, subtotal, grand_total)
   # loop through items and display a tabular receipt
   puts "Item\tQuantity\tPrice"
   puts '--------------------------------------'
   items.each do |item, quantity|
-    puts "#{item.capitalize}\t#{quantity}\t\t$#{item_totals[item]}"
+    puts "#{item.capitalize}\t#{quantity}\t\t#{format_currency(item_totals[item])}"
   end
 
   puts "\n"
-  puts "Total price : $#{grand_total}"
-  puts "You saved $#{(subtotal - grand_total).round(2)} today."
+  puts "Total price : #{format_currency(grand_total)}"
+  puts "You saved #{format_currency(subtotal - grand_total)} today."
 end
 
 def main
