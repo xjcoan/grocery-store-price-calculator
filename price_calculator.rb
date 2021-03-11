@@ -37,7 +37,14 @@ def get_purchased_items
   # We could use Enumarable#tally for this, but I won't assume we're running 2.7 yet
   purchased_items = Hash.new(0)
   input.each { |item| purchased_items[item] += 1 }
+  validate_items(purchased_items)
   purchased_items
+end
+
+# Check that everything entired item is valid against the store's stock
+def validate_items(entered_items)
+  wrong_items = entered_items.keys - BASE_ITEM_PRICES.keys
+  raise "Item(s) #{wrong_items} are invalid. Please try again." unless wrong_items.empty?
 end
 
 # Find the sale price applicable for each item on sale
@@ -112,6 +119,8 @@ def main
   subtotals = calculate_subtotals(items)
   discounts = calculate_discounts(items)
   calculate_and_display_receipt(items, subtotals, discounts)
+rescue StandardError => e
+  puts e.message
 end
 
 main
